@@ -16,10 +16,9 @@ def ableToGo(s1:str,s2:str,length:int):
 def solution(begin, target, words):
     dic=defaultdict(list)
     length=len(begin)
-    for item in words:
-        if ableToGo(begin,item,length):
-            dic[begin].append(item)
-        
+    
+    words=[begin]+words   
+    
     for item in words:
         arr=words.copy()
         arr.remove(item)
