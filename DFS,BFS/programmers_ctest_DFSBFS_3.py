@@ -1,4 +1,3 @@
-from collections import defaultdict
 from typing import List
 
 #도달 가능한 단어인지 확인해주는 함수
@@ -8,24 +7,12 @@ def ableToGo(s1:str,s2:str,length:int):
         if s1[i]!=s2[i]:
             diff+=1
     
-    if diff==1:
-        return True
-    else:
-        return False
+    return diff==1
 
 def solution(begin, target, words):
-    dic=defaultdict(list)
     length=len(begin)
-    for item in words:
-        if ableToGo(begin,item,length):
-            dic[begin].append(item)
-        
-    for item in words:
-        arr=words.copy()
-        arr.remove(item)
-        for item2 in arr:
-            if ableToGo(item,item2,length):
-                dic[item].append(item2)
+    
+    words=[begin]+words   
 
     res=[]
     def dfs(node, step, visited:List):
@@ -35,8 +22,10 @@ def solution(begin, target, words):
         if node not in visited:
             visited.append(node)
 
-        for item in dic[node]:
-            if item not in visited:
+        filtered=words.copy()
+        filtered.remove(node)
+        for item in filtered:
+            if item not in visited and ableToGo(node,item,length):
                 dfs(item,step+1,visited)
     
     dfs(begin,0, [])
